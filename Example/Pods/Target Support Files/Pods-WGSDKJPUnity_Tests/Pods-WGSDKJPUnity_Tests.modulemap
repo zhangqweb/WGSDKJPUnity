@@ -1,0 +1,6 @@
+framework module Pods_WGSDKJPUnity_Tests {
+  umbrella header "Pods-WGSDKJPUnity_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

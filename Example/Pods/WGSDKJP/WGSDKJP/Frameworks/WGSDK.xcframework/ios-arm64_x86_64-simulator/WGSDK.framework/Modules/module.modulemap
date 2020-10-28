@@ -1,0 +1,11 @@
+framework module WGSDK {
+  umbrella header "WGSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module WGSDK.Swift {
+    header "WGSDK-Swift.h"
+    requires objc
+}

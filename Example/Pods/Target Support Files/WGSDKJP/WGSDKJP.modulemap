@@ -1,0 +1,6 @@
+framework module WGSDKJP {
+  umbrella header "WGSDKJP-umbrella.h"
+
+  export *
+  module * { export * }
+}

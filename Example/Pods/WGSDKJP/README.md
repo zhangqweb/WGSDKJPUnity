@@ -1,0 +1,29 @@
+# WGSDKJP
+
+[![CI Status](https://img.shields.io/travis/zhangqweb@126.com/WGSDKJP.svg?style=flat)](https://travis-ci.org/zhangqweb@126.com/WGSDKJP)
+[![Version](https://img.shields.io/cocoapods/v/WGSDKJP.svg?style=flat)](https://cocoapods.org/pods/WGSDKJP)
+[![License](https://img.shields.io/cocoapods/l/WGSDKJP.svg?style=flat)](https://cocoapods.org/pods/WGSDKJP)
+[![Platform](https://img.shields.io/cocoapods/p/WGSDKJP.svg?style=flat)](https://cocoapods.org/pods/WGSDKJP)
+
+## Example
+
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
+
+## Requirements
+
+## Installation
+
+WGSDKJP is available through [CocoaPods](https://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod 'WGSDKJP'
+```
+
+## Author
+
+zhangqweb@126.com, zhangqweb@126.com
+
+## License
+
+WGSDKJP is available under the MIT license. See the LICENSE file for more info.

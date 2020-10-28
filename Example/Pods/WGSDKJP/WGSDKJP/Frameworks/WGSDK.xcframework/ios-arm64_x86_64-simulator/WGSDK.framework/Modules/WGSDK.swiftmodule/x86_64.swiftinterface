@@ -1,0 +1,516 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)
+// swift-module-flags: -target x86_64-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name WGSDK
+import AdSupport
+import Adjust
+import Alamofire
+import AuthenticationServices
+import CommonCrypto
+import CoreTelephony
+import FBSDKCoreKit
+import FBSDKLoginKit
+import FirebaseAnalytics
+import FirebaseAuth
+import FirebaseCore
+import Foundation
+import GoogleSignIn
+import HandyJSON
+import IQKeyboardManager
+import LineSDK
+import Moya
+import Photos
+import Result
+import RxCocoa
+import RxSwift
+import SVProgressHUD
+import Security
+import SnapKit
+import StoreKit
+import Swift
+import TwitterKit
+import UIKit
+@_exported import WGSDK
+import ZLPhotoBrowser
+public class AppleReceiptValidator : WGSDK.ReceiptValidator {
+  public enum VerifyReceiptURLType : Swift.String {
+    case production
+    case sandbox
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public var service: WGSDK.AppleReceiptValidator.VerifyReceiptURLType
+  public init(service: WGSDK.AppleReceiptValidator.VerifyReceiptURLType = .production, sharedSecret: Swift.String? = nil)
+  public func validate(receiptData: Foundation.Data, completion: @escaping (WGSDK.VerifyReceiptResult) -> Swift.Void)
+  @objc deinit
+}
+public protocol InAppRequest : AnyObject {
+  func start()
+  func cancel()
+}
+extension ReceiptItem {
+  public init?(receiptInfo: WGSDK.ReceiptInfo)
+}
+open class KeychainSwift {
+  open var lastResultCode: Darwin.OSStatus
+  open var accessGroup: Swift.String?
+  open var synchronizable: Swift.Bool
+  public init()
+  public init(keyPrefix: Swift.String)
+  @discardableResult
+  open func set(_ value: Swift.String, forKey key: Swift.String, withAccess access: WGSDK.KeychainSwiftAccessOptions? = nil) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Foundation.Data, forKey key: Swift.String, withAccess access: WGSDK.KeychainSwiftAccessOptions? = nil) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Swift.Bool, forKey key: Swift.String, withAccess access: WGSDK.KeychainSwiftAccessOptions? = nil) -> Swift.Bool
+  open func get(_ key: Swift.String) -> Swift.String?
+  open func getData(_ key: Swift.String, asReference: Swift.Bool = false) -> Foundation.Data?
+  open func getBool(_ key: Swift.String) -> Swift.Bool?
+  @discardableResult
+  open func delete(_ key: Swift.String) -> Swift.Bool
+  public var allKeys: [Swift.String] {
+    get
+  }
+  @discardableResult
+  open func clear() -> Swift.Bool
+  @objc deinit
+}
+public enum KeychainSwiftAccessOptions {
+  case accessibleWhenUnlocked
+  case accessibleWhenUnlockedThisDeviceOnly
+  case accessibleAfterFirstUnlock
+  case accessibleAfterFirstUnlockThisDeviceOnly
+  case accessibleWhenPasscodeSetThisDeviceOnly
+  public static func == (a: WGSDK.KeychainSwiftAccessOptions, b: WGSDK.KeychainSwiftAccessOptions) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum TransactionResult {
+  case purchased(purchase: WGSDK.PurchaseDetails)
+  case restored(purchase: WGSDK.Purchase)
+  case failed(error: StoreKit.SKError)
+}
+public protocol PaymentQueue : AnyObject {
+  func add(_ observer: StoreKit.SKPaymentTransactionObserver)
+  func remove(_ observer: StoreKit.SKPaymentTransactionObserver)
+  func add(_ payment: StoreKit.SKPayment)
+  func start(_ downloads: [StoreKit.SKDownload])
+  func pause(_ downloads: [StoreKit.SKDownload])
+  func resume(_ downloads: [StoreKit.SKDownload])
+  func cancel(_ downloads: [StoreKit.SKDownload])
+  func restoreCompletedTransactions(withApplicationUsername username: Swift.String?)
+  func finishTransaction(_ transaction: StoreKit.SKPaymentTransaction)
+}
+extension SKPaymentQueue : WGSDK.PaymentQueue {
+}
+extension SKPaymentTransactionState : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+public struct PaymentDiscount {
+  @available(iOS 12.2, tvOS 12.2, OSX 10.14.4, watchOS 6.2, macCatalyst 13.0, *)
+  public init(discount: StoreKit.SKPaymentDiscount)
+}
+extension SKProduct {
+  public var localizedPrice: Swift.String? {
+    get
+  }
+  @available(iOSApplicationExtension 11.2, iOS 11.2, OSX 10.13.2, tvOS 11.2, watchOS 6.2, macCatalyst 13.0, *)
+  public var localizedSubscriptionPeriod: Swift.String {
+    get
+  }
+}
+@available(iOSApplicationExtension 11.2, iOS 11.2, OSX 10.13.2, tvOS 11.2, watchOS 4.2, macCatalyst 13.0, *)
+extension SKProductDiscount {
+  public var localizedPrice: Swift.String? {
+    get
+  }
+  public var localizedSubscriptionPeriod: Swift.String {
+    get
+  }
+}
+extension String {
+  public func substring(from index: Swift.Int) -> Swift.String
+  public func substring(to index: Swift.Int) -> Swift.String
+  public func substring(to: Swift.Int, from: Swift.Int) -> Swift.String
+}
+public protocol Purchased {
+  var productId: Swift.String { get }
+  var quantity: Swift.Int { get }
+  var originalPurchaseDate: Foundation.Date { get }
+}
+extension Purchase : WGSDK.Purchased {
+  public var originalPurchaseDate: Foundation.Date {
+    get
+  }
+}
+extension PurchaseDetails : WGSDK.Purchased {
+  public var originalPurchaseDate: Foundation.Date {
+    get
+  }
+}
+public struct Purchase {
+  public let productId: Swift.String
+  public let quantity: Swift.Int
+  public let transaction: WGSDK.PaymentTransaction
+  public let originalTransaction: WGSDK.PaymentTransaction?
+  public let needsFinishTransaction: Swift.Bool
+  public init(productId: Swift.String, quantity: Swift.Int, transaction: WGSDK.PaymentTransaction, originalTransaction: WGSDK.PaymentTransaction?, needsFinishTransaction: Swift.Bool)
+}
+public struct PurchaseDetails {
+  public let productId: Swift.String
+  public let quantity: Swift.Int
+  public let product: StoreKit.SKProduct
+  public let transaction: WGSDK.PaymentTransaction
+  public let originalTransaction: WGSDK.PaymentTransaction?
+  public let needsFinishTransaction: Swift.Bool
+  public init(productId: Swift.String, quantity: Swift.Int, product: StoreKit.SKProduct, transaction: WGSDK.PaymentTransaction, originalTransaction: WGSDK.PaymentTransaction?, needsFinishTransaction: Swift.Bool)
+}
+public protocol ReceiptValidator {
+  func validate(receiptData: Foundation.Data, completion: @escaping (WGSDK.VerifyReceiptResult) -> Swift.Void)
+}
+public protocol PaymentTransaction {
+  var transactionDate: Foundation.Date? { get }
+  var transactionState: StoreKit.SKPaymentTransactionState { get }
+  var transactionIdentifier: Swift.String? { get }
+  var downloads: [StoreKit.SKDownload] { get }
+}
+extension SKPaymentTransaction : WGSDK.PaymentTransaction {
+}
+public struct RetrieveResults {
+  public let retrievedProducts: Swift.Set<StoreKit.SKProduct>
+  public let invalidProductIDs: Swift.Set<Swift.String>
+  public let error: Swift.Error?
+  public init(retrievedProducts: Swift.Set<StoreKit.SKProduct>, invalidProductIDs: Swift.Set<Swift.String>, error: Swift.Error?)
+}
+public enum PurchaseResult {
+  case success(purchase: WGSDK.PurchaseDetails)
+  case error(error: StoreKit.SKError)
+}
+public struct RestoreResults {
+  public let restoredPurchases: [WGSDK.Purchase]
+  public let restoreFailedPurchases: [(StoreKit.SKError, Swift.String?)]
+  public init(restoredPurchases: [WGSDK.Purchase], restoreFailedPurchases: [(StoreKit.SKError, Swift.String?)])
+}
+public typealias ShouldAddStorePaymentHandler = (StoreKit.SKPayment, StoreKit.SKProduct) -> Swift.Bool
+public typealias UpdatedDownloadsHandler = ([StoreKit.SKDownload]) -> Swift.Void
+public typealias ReceiptInfo = [Swift.String : Swift.AnyObject]
+public enum FetchReceiptResult {
+  case success(receiptData: Foundation.Data)
+  case error(error: WGSDK.ReceiptError)
+}
+public enum VerifyReceiptResult {
+  case success(receipt: WGSDK.ReceiptInfo)
+  case error(error: WGSDK.ReceiptError)
+}
+public enum VerifyPurchaseResult {
+  case purchased(item: WGSDK.ReceiptItem)
+  case notPurchased
+}
+public enum VerifySubscriptionResult {
+  case purchased(expiryDate: Foundation.Date, items: [WGSDK.ReceiptItem])
+  case expired(expiryDate: Foundation.Date, items: [WGSDK.ReceiptItem])
+  case notPurchased
+}
+public enum SubscriptionType {
+  case autoRenewable
+  case nonRenewing(validDuration: Foundation.TimeInterval)
+}
+public struct ReceiptItem : WGSDK.Purchased, Swift.Codable {
+  public var productId: Swift.String
+  public var quantity: Swift.Int
+  public var transactionId: Swift.String
+  public var originalTransactionId: Swift.String
+  public var purchaseDate: Foundation.Date
+  public var originalPurchaseDate: Foundation.Date
+  public var webOrderLineItemId: Swift.String?
+  public var subscriptionExpirationDate: Foundation.Date?
+  public var cancellationDate: Foundation.Date?
+  public var isTrialPeriod: Swift.Bool
+  public var isInIntroOfferPeriod: Swift.Bool
+  public init(productId: Swift.String, quantity: Swift.Int, transactionId: Swift.String, originalTransactionId: Swift.String, purchaseDate: Foundation.Date, originalPurchaseDate: Foundation.Date, webOrderLineItemId: Swift.String?, subscriptionExpirationDate: Foundation.Date?, cancellationDate: Foundation.Date?, isTrialPeriod: Swift.Bool, isInIntroOfferPeriod: Swift.Bool)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum ReceiptError : Swift.Error {
+  case noReceiptData
+  case noRemoteData
+  case requestBodyEncodeError(error: Swift.Error)
+  case networkError(error: Swift.Error)
+  case jsonDecodeError(string: Swift.String?)
+  case receiptInvalid(receipt: WGSDK.ReceiptInfo, status: WGSDK.ReceiptStatus)
+}
+public enum ReceiptStatus : Swift.Int {
+  case unknown
+  case none
+  case valid
+  case jsonNotReadable
+  case malformedOrMissingData
+  case receiptCouldNotBeAuthenticated
+  case secretNotMatching
+  case receiptServerUnavailable
+  case subscriptionExpired
+  case testReceipt
+  case productionEnvironment
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum ReceiptInfoField : Swift.String {
+  case bundle_id
+  case application_version
+  case original_application_version
+  case creation_date
+  case expiration_date
+  case in_app
+  public enum InApp : Swift.String {
+    case quantity
+    case product_id
+    case transaction_id
+    case original_transaction_id
+    case purchase_date
+    case original_purchase_date
+    case expires_date
+    case cancellation_date
+    case app_item_id
+    case version_external_identifier
+    case web_order_line_item_id
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class SwiftyStoreKit {
+  @objc deinit
+}
+extension SwiftyStoreKit {
+  public class var canMakePayments: Swift.Bool {
+    get
+  }
+  @discardableResult
+  public class func retrieveProductsInfo(_ productIds: Swift.Set<Swift.String>, completion: @escaping (WGSDK.RetrieveResults) -> Swift.Void) -> WGSDK.InAppRequest
+  @discardableResult
+  public class func purchaseProduct(_ productId: Swift.String, quantity: Swift.Int = 1, atomically: Swift.Bool = true, applicationUsername: Swift.String = "", simulatesAskToBuyInSandbox: Swift.Bool = false, completion: @escaping (WGSDK.PurchaseResult) -> Swift.Void) -> WGSDK.InAppRequest
+  public class func purchaseProduct(_ product: StoreKit.SKProduct, quantity: Swift.Int = 1, atomically: Swift.Bool = true, applicationUsername: Swift.String = "", simulatesAskToBuyInSandbox: Swift.Bool = false, paymentDiscount: WGSDK.PaymentDiscount? = nil, completion: @escaping (WGSDK.PurchaseResult) -> Swift.Void)
+  public class func restorePurchases(atomically: Swift.Bool = true, applicationUsername: Swift.String = "", completion: @escaping (WGSDK.RestoreResults) -> Swift.Void)
+  public class func completeTransactions(atomically: Swift.Bool = true, completion: @escaping ([WGSDK.Purchase]) -> Swift.Void)
+  public class func finishTransaction(_ transaction: WGSDK.PaymentTransaction)
+  public static var shouldAddStorePaymentHandler: WGSDK.ShouldAddStorePaymentHandler? {
+    get
+    set
+  }
+  public static var updatedDownloadsHandler: WGSDK.UpdatedDownloadsHandler? {
+    get
+    set
+  }
+  public class func start(_ downloads: [StoreKit.SKDownload])
+  public class func pause(_ downloads: [StoreKit.SKDownload])
+  public class func resume(_ downloads: [StoreKit.SKDownload])
+  public class func cancel(_ downloads: [StoreKit.SKDownload])
+}
+extension SwiftyStoreKit {
+  public static var localReceiptData: Foundation.Data? {
+    get
+  }
+  @discardableResult
+  public class func verifyReceipt(using validator: WGSDK.ReceiptValidator, forceRefresh: Swift.Bool = false, completion: @escaping (WGSDK.VerifyReceiptResult) -> Swift.Void) -> WGSDK.InAppRequest?
+  @discardableResult
+  public class func fetchReceipt(forceRefresh: Swift.Bool, completion: @escaping (WGSDK.FetchReceiptResult) -> Swift.Void) -> WGSDK.InAppRequest?
+  public class func verifyPurchase(productId: Swift.String, inReceipt receipt: WGSDK.ReceiptInfo) -> WGSDK.VerifyPurchaseResult
+  public class func verifySubscription(ofType type: WGSDK.SubscriptionType, productId: Swift.String, inReceipt receipt: WGSDK.ReceiptInfo, validUntil date: Foundation.Date = Date()) -> WGSDK.VerifySubscriptionResult
+  public class func verifySubscriptions(ofType type: WGSDK.SubscriptionType = .autoRenewable, productIds: Swift.Set<Swift.String>, inReceipt receipt: WGSDK.ReceiptInfo, validUntil date: Foundation.Date = Date()) -> WGSDK.VerifySubscriptionResult
+  public class func getDistinctPurchaseIds(ofType type: WGSDK.SubscriptionType = .autoRenewable, inReceipt receipt: WGSDK.ReceiptInfo) -> Swift.Set<Swift.String>?
+}
+public struct KeychainSwiftConstants {
+  public static var accessGroup: Swift.String {
+    get
+  }
+  public static var accessible: Swift.String {
+    get
+  }
+  public static var attrAccount: Swift.String {
+    get
+  }
+  public static var attrSynchronizable: Swift.String {
+    get
+  }
+  public static var klass: Swift.String {
+    get
+  }
+  public static var matchLimit: Swift.String {
+    get
+  }
+  public static var returnData: Swift.String {
+    get
+  }
+  public static var valueData: Swift.String {
+    get
+  }
+  public static var returnReference: Swift.String {
+    get
+  }
+  public static var returnAttributes: Swift.String {
+    get
+  }
+  public static var secMatchLimitAll: Swift.String {
+    get
+  }
+}
+extension UIImage {
+  public func grayImageWGSDK() -> UIKit.UIImage
+}
+extension Reactive where Base : UIKit.UITextField {
+  public var textChange: RxSwift.Observable<Swift.String?> {
+    get
+  }
+}
+extension Bundle {
+  public var icon: UIKit.UIImage? {
+    get
+  }
+}
+@objc @objcMembers public class WGSDKIAPProduct : ObjectiveC.NSObject {
+  @objc public init(productId: Swift.String, serverCode: Swift.String, roleId: Swift.String, roleName: Swift.String, gameInfo: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class WGSDKPaymentResult : ObjectiveC.NSObject {
+  @objc public var orderId: Swift.String
+  @objc public var productId: Swift.String
+  @objc public var purchaseTime: Swift.String
+  @objc public var productPrice: Swift.String
+  @objc public var priceLocale: Swift.String
+  @objc public var gameInfo: Swift.String
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class WGSDKLogin : ObjectiveC.NSObject {
+  @objc public init(gameCode: Swift.String, gameSecret: Swift.String, backgroundImage: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class WGSDKLoginResult : ObjectiveC.NSObject {
+  @objc public var guestId: Swift.String
+  @objc public var type: Swift.String
+  @objc public var token: Swift.String
+  @objc public var refreshToken: Swift.String
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+final public class WGSDKNetworkLog : Moya.PluginType {
+  final public let isVerbose: Swift.Bool
+  final public let cURL: Swift.Bool
+  public init(verbose: Swift.Bool = false, cURL: Swift.Bool = false, output: ((Swift.String, Swift.String, Any...) -> Swift.Void)? = nil, requestDataFormatter: ((Foundation.Data) -> (Swift.String))? = nil, responseDataFormatter: ((Foundation.Data) -> (Foundation.Data))? = nil)
+  final public func willSend(_ request: Moya.RequestType, target: Moya.TargetType)
+  final public func didReceive(_ result: Swift.Result<Moya.Response, Moya.MoyaError>, target: Moya.TargetType)
+  @objc deinit
+}
+@objc @objcMembers public class WGSDKSetRole : ObjectiveC.NSObject {
+  @objc public var serverCode: Swift.String
+  @objc public var roleId: Swift.String
+  @objc public var roleName: Swift.String
+  @objc public var serverName: Swift.String
+  @objc public init(serverCode: Swift.String, serverName: Swift.String, roleId: Swift.String, roleName: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class WGSDKDeleteRole : ObjectiveC.NSObject {
+  @objc public var serverCode: Swift.String
+  @objc public var roleId: Swift.String
+  @objc public init(serverCode: Swift.String, roleId: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class WGSDKEnterGameLog : WGSDK.WGSDKDeleteRole {
+  @objc deinit
+  @objc override public init(serverCode: Swift.String, roleId: Swift.String)
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class WGSDKSetRoleResult : WGSDK.WGSDKSetRole {
+  @objc deinit
+  @objc override public init(serverCode: Swift.String, serverName: Swift.String, roleId: Swift.String, roleName: Swift.String)
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class WGSDKSwift : ObjectiveC.NSObject {
+  @objc public static let shared: WGSDK.WGSDKSwift
+  @objc public var needReLoginHandler: (() -> Swift.Void)?
+  @objc public var bindAccountHandler: ((Swift.String) -> Swift.Void)?
+  @objc public var changeAccountResultHandler: ((WGSDK.WGSDKLoginResult, Swift.Error?) -> Swift.Void)?
+  @objc public func initSDK(_ application: UIKit.UIApplication, launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?, useDebug: Swift.Bool = false)
+  @objc public func initSDKUnityFacebook(_ application: UIKit.UIApplication, launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?)
+  @objc public func initSDKUnity(useDebug: Swift.Bool = false, adjustAppToken: Swift.String, lineChannelID: Swift.String, twitterKey: Swift.String, twitterSecret: Swift.String)
+  @objc public func application(_ app: UIKit.UIApplication, open url: Foundation.URL, options: [UIKit.UIApplication.OpenURLOptionsKey : Any] = [:]) -> Swift.Bool
+  @objc public func applicationDidBecomeActive()
+  @objc public func resetYJAccount()
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension WGSDKSwift {
+  @objc dynamic public var useServiceWay: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc dynamic public func useDebug(_ useDebug: Swift.Bool)
+  @objc dynamic public func login(_ login: WGSDK.WGSDKLogin, fromVC: UIKit.UIViewController, handler: @escaping ((WGSDK.WGSDKLoginResult, Swift.Error?) -> Swift.Void))
+  @objc dynamic public func loginOut()
+  @objc dynamic public func showWidget(_ vc: UIKit.UIViewController, position: Swift.Int)
+  @objc dynamic public func hideWidget(_ vc: UIKit.UIViewController)
+  @objc dynamic public func setRole(_ role: WGSDK.WGSDKSetRole, handler: @escaping ((WGSDK.WGSDKSetRoleResult?, Swift.Error?) -> Swift.Void))
+  @objc dynamic public func deleteRole(_ role: WGSDK.WGSDKDeleteRole, handler: @escaping ((Swift.Error?) -> Swift.Void))
+  @objc dynamic public func gameLog(_ gameLog: WGSDK.WGSDKEnterGameLog, handler: @escaping ((Swift.Error?) -> Swift.Void))
+  @objc dynamic public func buyProduct(_ product: WGSDK.WGSDKIAPProduct, callBack: @escaping ((WGSDK.WGSDKPaymentResult?, Swift.Error?) -> Swift.Void))
+}
+extension WGSDKSwift {
+  @objc dynamic public func dictionaryToJson(_ info: [Swift.String : Swift.String]) -> Swift.String
+  @objc dynamic public func jsonToDictionary(_ json: Swift.String) -> [Swift.String : Any]
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class WGSDKWidgetButtonPosition : ObjectiveC.NSObject {
+  @objc public static var left: Swift.Int
+  @objc public static var leftTop: Swift.Int
+  @objc public static var leftBottom: Swift.Int
+  @objc public static var right: Swift.Int
+  @objc public static var rightTop: Swift.Int
+  @objc public static var rightBottom: Swift.Int
+  @objc public static var top: Swift.Int
+  @objc public static var bottom: Swift.Int
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class WGSDKWidgetButton : UIKit.UIButton {
+  @objc public var isShowWidgetButton: Swift.Bool
+  @objc public class func show(_ vc: UIKit.UIViewController, position: Swift.Int)
+  @objc public class func hide(_ vc: UIKit.UIViewController?)
+  @objc public class func isShow(_ vc: UIKit.UIViewController?) -> Swift.Bool
+  @objc deinit
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+extension WGSDK.AppleReceiptValidator.VerifyReceiptURLType : Swift.Equatable {}
+extension WGSDK.AppleReceiptValidator.VerifyReceiptURLType : Swift.Hashable {}
+extension WGSDK.AppleReceiptValidator.VerifyReceiptURLType : Swift.RawRepresentable {}
+extension WGSDK.KeychainSwiftAccessOptions : Swift.Equatable {}
+extension WGSDK.KeychainSwiftAccessOptions : Swift.Hashable {}
+extension WGSDK.ReceiptStatus : Swift.Equatable {}
+extension WGSDK.ReceiptStatus : Swift.Hashable {}
+extension WGSDK.ReceiptStatus : Swift.RawRepresentable {}
+extension WGSDK.ReceiptInfoField : Swift.Equatable {}
+extension WGSDK.ReceiptInfoField : Swift.Hashable {}
+extension WGSDK.ReceiptInfoField : Swift.RawRepresentable {}
+extension WGSDK.ReceiptInfoField.InApp : Swift.Equatable {}
+extension WGSDK.ReceiptInfoField.InApp : Swift.Hashable {}
+extension WGSDK.ReceiptInfoField.InApp : Swift.RawRepresentable {}

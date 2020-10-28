@@ -1,0 +1,6 @@
+framework module WGSDKJPUnity {
+  umbrella header "WGSDKJPUnity-umbrella.h"
+
+  export *
+  module * { export * }
+}
